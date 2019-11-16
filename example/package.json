@@ -10,23 +10,35 @@
     "android": "npx react-native run-android",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
+    "clean:example": "cd node_modules/react-native-inappbrowser-reborn && rm -rf node_modules example",
     "clean:android": "cd android && ./gradlew clean && cd ..",
-    "clean:ios": "cd ios && pod cache clean --all;rm -rf ~/Library/Caches/CocoaPods; rm -rf Pods; rm -rf ~/Library/Developer/Xcode/DerivedData/*; pod deintegrate; pod setup; pod install;"
+    "clean:ios": "cd ios && pod cache clean --all;rm -rf ~/Library/Caches/CocoaPods; rm -rf Pods; rm -rf ~/Library/Developer/Xcode/DerivedData/*; pod deintegrate; pod setup; pod install;",
+    "e2e": "jest e2e",
+    "e2e:start-server": "npx appium &",
+    "e2e:ios": "e2e/run-e2e.js --platform=ios",
+    "e2e:android": "e2e/run-e2e.js --platform=android",
+    "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator",
+    "build:e2e:android": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
-    "react": "16.8.6",
-    "react-native": "0.60.0",
+    "react": "16.9.0",
+    "react-native": "0.61.4",
     "react-native-inappbrowser-reborn": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
     "@babel/runtime": "^7.5.1",
     "@react-native-community/eslint-config": "^0.0.5",
+    "@types/selenium-webdriver": "^4.0.5",
+    "appium": "^1.15.1",
+    "appium-doctor": "^1.12.1",
     "babel-jest": "^24.8.0",
     "eslint": "^6.0.1",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.55.0",
-    "react-test-renderer": "16.8.6"
+    "minimist": "^1.2.0",
+    "react-test-renderer": "16.8.6",
+    "wd": "^1.11.4"
   },
   "jest": {
     "preset": "react-native"
