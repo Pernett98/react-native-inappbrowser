@@ -3,6 +3,10 @@ matrix:
     - stage: "E2E Tests"
       os: osx
       osx_image: xcode11.2
+      addons:
+        homebrew:
+          casks:
+            - applesimutils
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
