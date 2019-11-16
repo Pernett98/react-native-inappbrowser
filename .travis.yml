@@ -7,8 +7,14 @@ matrix:
       node_js: "12"
       jdk: oraclejdk8
       script:
+        - rm -rf node_modules
         - cd example
+        - echo installing yarn dependencies
+        - echo -----------------------------
         - yarn
+        - echo installing pod dependencies
+        - ls
+        - echo -----------------------------
         - yarn clean:ios
         - yarn build:e2e:ios
         - yarn e2e:start-server
