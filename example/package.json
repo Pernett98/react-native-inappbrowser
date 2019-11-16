@@ -17,7 +17,8 @@
     "e2e:start-server": "npx appium &",
     "e2e:ios": "e2e/run-e2e.js --platform=ios",
     "e2e:android": "e2e/run-e2e.js --platform=android",
-    "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator",
+    "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator && yarn zip:build:ios",
+    "zip:build:ios": "cd ios/build/example/Build/Products/Release-iphonesimulator && zip -r example.app.zip example.app",
     "build:e2e:android": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {

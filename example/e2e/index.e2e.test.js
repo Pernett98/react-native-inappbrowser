@@ -21,7 +21,7 @@ const makeCapabilitiesIos = (deviceName = 'iPhone X', platformVersion = '12.0') 
   deviceName,
   platformVersion: platformVersion,
   automationName: 'XCUITest',
-  app: './ios/build/example/Build/Products/Release-iphonesimulator/example.app',
+  app: './ios/build/example/Build/Products/Release-iphonesimulator/example.app.zip',
 })
 
 const makeCapabilitiesAndroid = (deviceName = 'Android Emulator', platformVersion) => ({
