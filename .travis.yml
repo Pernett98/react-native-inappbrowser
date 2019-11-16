@@ -7,6 +7,7 @@ matrix:
       node_js: "12"
       jdk: oraclejdk8
       script:
+        - sudo gem install xcpretty
         - rm -rf node_modules
         - cd example
         - echo installing yarn dependencies
@@ -16,7 +17,7 @@ matrix:
         - ls
         - echo -----------------------------
         - yarn clean:ios
-        - yarn build:e2e:ios
+        - yarn build:e2e:ios | xcpretty && exit ${PIPESTATUS[0]}
         - yarn e2e:start-server
         - e2e/run-e2e.js --platform=ios
 android:
