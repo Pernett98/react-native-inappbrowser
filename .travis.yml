@@ -1,0 +1,29 @@
+matrix:
+  include:
+    - stage: "E2E Tests"
+      os: osx
+      osx_image: xcode11.2
+      language: node_js 
+      node_js: "12"
+      jdk: oraclejdk8
+      script:
+        - cd example
+        - yarn
+        - yarn build:e2e:ios
+        - yarn e2e:start-server
+        - e2e/run-e2e.js --platform=ios
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-28.0.3
+    - android-28
+    - extra-android-m2repository
+
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+    directories:
+        - .nvm
+        - $HOME/.gradle/caches/
+        - $HOME/.gradle/wrapper/
