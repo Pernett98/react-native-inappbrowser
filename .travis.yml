@@ -22,7 +22,7 @@ matrix:
         - yarn e2e:start-server --log-level info > appium_log.txt &
         - travis_wait 30 e2e/run-e2e.js --platform=ios
       after_script:
-        - cat ./example/appium_log.txt
+        - cat ./appium_log.txt
 android:
   components:
     - tools
