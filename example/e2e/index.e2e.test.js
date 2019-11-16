@@ -16,18 +16,18 @@ const platformSelect = (platforms) => {
   return platforms[os.toLowerCase()]
 }
 
-const makeCapabilitiesIos = (deviceName = 'iPhone X', platformVersion = '12.0') => ({
+const makeCapabilitiesIos = (deviceName, platformVersion) => ({
   platformName: 'iOS',
-  deviceName,
-  platformVersion: platformVersion,
+  deviceName: deviceName || 'iPhone X',
+  platformVersion: platformVersion || '13.2',
   automationName: 'XCUITest',
   app: './ios/build/example/Build/Products/Release-iphonesimulator/example.app.zip',
 })
 
-const makeCapabilitiesAndroid = (deviceName = 'Android Emulator', platformVersion) => ({
-  'platformName': 'Android',
-  deviceName,
-  'app': './android/app/build/outputs/apk/release/app-release.apk',
+const makeCapabilitiesAndroid = (deviceName, platformVersion) => ({
+  platformName: 'Android',
+  deviceName: deviceName || 'Android Emulator',
+  app: './android/app/build/outputs/apk/release/app-release.apk',
 })
 
 const sleep = (time = 500) => new Promise(resolve => setTimeout(resolve, time))

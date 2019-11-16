@@ -8,7 +8,13 @@ const {
   platformVersion
 } = parseArgs(process.argv)
 
-exec(`E2E_OS=${platform} E2E_PLATFORM=${platform} E2E_PLATFORM_VERSION=${platformVersion} E2E_DEVICE="${deviceName}" yarn e2e`, (error, stdout, stderr) => {
+const getDefault = (value, defaultValue) => value || ''
+console.log({ 
+  platform,
+  deviceName,
+  platformVersion
+})
+exec(`E2E_OS=${getDefault(platform)} E2E_PLATFORM=${getDefault(platform)} E2E_PLATFORM_VERSION=${getDefault(platformVersion)} E2E_DEVICE="${getDefault(deviceName)}" yarn e2e`, (error, stdout, stderr) => {
   if (error) {
     console.error(`exec error: ${error}`);
     return;
