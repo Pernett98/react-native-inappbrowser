@@ -9,6 +9,7 @@ matrix:
       script:
         - cd example
         - yarn
+        - yarn clean:ios
         - yarn build:e2e:ios
         - yarn e2e:start-server
         - e2e/run-e2e.js --platform=ios
