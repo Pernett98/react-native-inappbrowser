@@ -14,7 +14,7 @@
     "clean:android": "cd android && ./gradlew clean && cd ..",
     "clean:ios": "cd ios && pod cache clean --all;rm -rf ~/Library/Caches/CocoaPods; rm -rf Pods; rm -rf ~/Library/Developer/Xcode/DerivedData/*; pod deintegrate; pod setup; pod install;",
     "e2e": "jest e2e",
-    "e2e:start-server": "npx appium &",
+    "e2e:start-server": "npx appium",
     "e2e:ios": "e2e/run-e2e.js --platform=ios",
     "e2e:android": "e2e/run-e2e.js --platform=android",
     "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator && yarn zip:build:ios",
