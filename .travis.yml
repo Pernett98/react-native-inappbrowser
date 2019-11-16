@@ -6,7 +6,7 @@ matrix:
       addons:
         homebrew:
           taps: wix/brew
-          casks: 
+          packages:
             - applesimutils
       language: node_js 
       node_js: "12"
