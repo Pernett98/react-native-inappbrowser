@@ -1,6 +1,6 @@
 import wd from 'wd'
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 80000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000
 
 const SERVER_PORT = 4723
 const SERVER_URL = 'localhost'
