@@ -1,6 +1,6 @@
 import wd from 'wd'
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 80000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 160000
 
 const SERVER_PORT = 4723
 const SERVER_URL = 'localhost'
@@ -69,7 +69,7 @@ describe('SomeComponent', () => {
       console.log('running e2e tests with the following capabilities')
       console.log(capabilities)
       await driver.init(capabilities)
-      await driver.driver.sleep(90000) // wait for app to load
+      await driver.sleep(90000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
