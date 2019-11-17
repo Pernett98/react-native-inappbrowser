@@ -1,6 +1,6 @@
 import wd from 'wd'
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 90000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 80000
 
 const SERVER_PORT = 4723
 const SERVER_URL = 'localhost'
@@ -39,19 +39,19 @@ const handleIosAlert = (driver, text) => driver
   .click()
 
 const handleAndroidAlert = (driver) => driver
-  .elementById("android:id/button1")
+  .waitForElementById("android:id/button1")
   .click()
 
 const handleRedirectLinkAndroid = (driver) => driver
-  .elementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout[2]/android.webkit.WebView/android.view.View[2]")
+  .waitForElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout[2]/android.webkit.WebView/android.view.View[2]")
   .click()
 
 const handleRedirectLinkIos = (driver, text) => driver
-  .elementByName(text)
+  .waitForElementByName(text)
   .click()
 
 const handleCloseBrowserAndroid = (driver) => driver
-  .elementByAccessibilityId("Close tab")
+  .waitForElementByAccessibilityId("Close tab")
   .click()
 
 const handleCloseBrowserIos = (driver, text) => driver
@@ -66,22 +66,22 @@ describe('SomeComponent', () => {
         ios: makeCapabilitiesIos(device, platformVersion),
         android: makeCapabilitiesAndroid(device, platformVersion)
       })
-      console.log('running e2e tests with the followin capabilities')
+      console.log('running e2e tests with the following capabilities')
       console.log(capabilities)
       await driver.init(capabilities)
-      await driver.sleep(60000) // wait for app to load
+      await driver.driver.sleep(60000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
   })
 
-  beforeEach(async () => {
-    try {
-      await driver.resetApp()
-    } catch(err) {
-      console.log(err)
-    }
-  })
+  // beforeEach(async () => {
+  //   try {
+  //     await driver.resetApp()
+  //   } catch(err) {
+  //     console.log(err)
+  //   }
+  // })
 
   afterAll(async () => {
     try {
@@ -93,21 +93,21 @@ describe('SomeComponent', () => {
   })
                                             
   test('try deep linking', async () => {
-    const tryDeepBtn = await driver.elementByAccessibilityId('btn_try_deep_linking')
+    const tryDeepBtn = await driver.waitForElementByAccessibilityId('btn_try_deep_linking')
     await tryDeepBtn
       .click()
     await platformSelect({
       ios: handleIosAlert(driver, 'Continue'),
       android: Promise.resolve()
     })
-    await sleep(1500)
+    await driver.sleep(1500)
 
     await platformSelect({
       ios: handleRedirectLinkIos(driver, 'Press here to redirect'),
       android: handleRedirectLinkAndroid(driver)
     })
 
-    await sleep(1000)
+    await driver.sleep(1000)
 
      await platformSelect({
        ios: handleIosAlert(driver, 'OK'),
@@ -117,15 +117,15 @@ describe('SomeComponent', () => {
   })  
   
   test('try redirect', async () => {
-    const openLinkBtn = await driver.elementByAccessibilityId('btn_open_link')
+    const openLinkBtn = await driver.waitForElementByAccessibilityId('btn_open_link')
     await openLinkBtn
       .click()
-    await sleep(1000)
+    await driver.sleep(1000)
     await platformSelect({
       ios: handleCloseBrowserIos(driver, 'Cancel'),
       android: handleCloseBrowserAndroid(driver)
     })
-    await sleep(1000)
+    await driver.sleep(1000)
     await platformSelect({
       ios: handleIosAlert(driver, 'OK'),
       android: handleAndroidAlert(driver)
