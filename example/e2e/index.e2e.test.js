@@ -1,25 +1,24 @@
 import wd from 'wd'
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 160000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 80000
 
 const SERVER_PORT = 4723
 const SERVER_URL = 'localhost'
 
 const getFromEnv = (env) => (key) => env[key] || ''
 const getEnv = getFromEnv(process.env)
-const os = getEnv('E2E_OS')
 const platform = getEnv('E2E_PLATFORM')
 const platformVersion = getEnv('E2E_PLATFORM_VERSION')
 const device = getEnv('E2E_DEVICE')
 
 const platformSelect = (platforms) => {
-  return platforms[os.toLowerCase()]
+  return platforms[platform.toLowerCase()]
 }
 
 const makeCapabilitiesIos = (deviceName, platformVersion) => ({
   platformName: 'iOS',
   deviceName: deviceName || 'iPhone X',
-  platformVersion: platformVersion || '13.2',
+  platformVersion: platformVersion || '12.0',
   automationName: 'XCUITest',
   app: './ios/build/example/Build/Products/Release-iphonesimulator/example.app.zip',
 })
@@ -69,7 +68,6 @@ describe('SomeComponent', () => {
       console.log('running e2e tests with the following capabilities')
       console.log(capabilities)
       await driver.init(capabilities)
-      await driver.sleep(90000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
@@ -78,18 +76,14 @@ describe('SomeComponent', () => {
   beforeEach(async () => {
     try {
       await driver.resetApp()
+      await driver.sleep(2000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
   })
 
   afterAll(async () => {
-    try {
-      await driver.quit()
-    }
-    catch(err) {
-      console.error(err)
-    }
+    await driver.quit()
   })
                                             
   test('try deep linking', async () => {
@@ -100,14 +94,14 @@ describe('SomeComponent', () => {
       ios: handleIosAlert(driver, 'Continue'),
       android: Promise.resolve()
     })
-    await driver.sleep(1500)
+    await sleep(1500)
 
     await platformSelect({
       ios: handleRedirectLinkIos(driver, 'Press here to redirect'),
       android: handleRedirectLinkAndroid(driver)
     })
 
-    await driver.sleep(1000)
+    await sleep(1000)
 
      await platformSelect({
        ios: handleIosAlert(driver, 'OK'),
@@ -120,12 +114,12 @@ describe('SomeComponent', () => {
     const openLinkBtn = await driver.waitForElementByAccessibilityId('btn_open_link')
     await openLinkBtn
       .click()
-    await driver.sleep(1000)
+    await sleep(1000)
     await platformSelect({
       ios: handleCloseBrowserIos(driver, 'Cancel'),
       android: handleCloseBrowserAndroid(driver)
     })
-    await driver.sleep(1000)
+    await sleep(1000)
     await platformSelect({
       ios: handleIosAlert(driver, 'OK'),
       android: handleAndroidAlert(driver)
