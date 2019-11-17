@@ -69,19 +69,19 @@ describe('SomeComponent', () => {
       console.log('running e2e tests with the following capabilities')
       console.log(capabilities)
       await driver.init(capabilities)
-      await driver.driver.sleep(60000) // wait for app to load
+      await driver.driver.sleep(90000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
   })
 
-  // beforeEach(async () => {
-  //   try {
-  //     await driver.resetApp()
-  //   } catch(err) {
-  //     console.log(err)
-  //   }
-  // })
+  beforeEach(async () => {
+    try {
+      await driver.resetApp()
+    } catch(err) {
+      console.log(err)
+    }
+  })
 
   afterAll(async () => {
     try {
