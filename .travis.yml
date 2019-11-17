@@ -17,7 +17,7 @@ matrix:
         - sudo gem install xcpretty
         - cd example
         - npx appium-doctor
-        - yarn e2e:start-server &
+        - yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":180 }' > appium_log.txt &
       script:
         - echo installing yarn dependencies
         - echo -----------------------------
