@@ -5,9 +5,12 @@ matrix:
       osx_image: xcode11.2
       addons:
         homebrew:
-          taps: wix/brew
+          taps: 
+            - wix/brew
+            - facebook/fb
           packages:
             - applesimutils
+            - idb-companion
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
