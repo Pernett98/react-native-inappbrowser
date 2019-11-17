@@ -69,7 +69,7 @@ describe('SomeComponent', () => {
       console.log('running e2e tests with the followin capabilities')
       console.log(capabilities)
       await driver.init(capabilities)
-      await driver.sleep(8000) // wait for app to load
+      await driver.sleep(60000) // wait for app to load
     } catch(err) {
       console.log(err)
     }
