@@ -16,7 +16,7 @@ matrix:
       jdk: oraclejdk8
       install: skip
       before_script:
-        - pip3.6 install fb-idb
+        - pip install fb-idb
       script:
         - sudo gem install xcpretty
         - cd example
