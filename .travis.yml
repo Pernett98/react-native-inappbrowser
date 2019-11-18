@@ -17,7 +17,7 @@ matrix:
         - sudo gem install xcpretty
         - cd example
         - npx appium-doctor
-        - yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
+        - yarn e2e:start-server --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
       script:
         - echo installing yarn dependencies
         - echo -----------------------------
@@ -30,6 +30,24 @@ matrix:
         - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=12.0
       after_script:
         - cat ./appium_log.txt
+    - language: android
+      os: linux
+      node_js: "12"
+      jdk: oraclejdk8
+      install: skip
+      before_script:
+        - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
+        - emulator -avd test -no-audio -no-window &
+        - android-wait-for-emulator
+        - adb shell input keyevent 82 &
+        - cd example
+        - npx appium-doctor
+        - yarn e2e:start-server --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
+      script:
+        - yarn
+        - yarn buid:e2e:android
+        - travis_wait 30 e2e/run-e2e.js --platform=android
+
 android:
   components:
     - tools
@@ -37,6 +55,10 @@ android:
     - build-tools-28.0.3
     - android-28
     - extra-android-m2repository
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-x86-android-26
+    - sys-img-armeabi-v7a-android-17
 
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
