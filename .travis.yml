@@ -2,7 +2,7 @@ matrix:
   include:
     - stage: "e2e"
       os: osx
-      osx_image: xcode11.2
+      osx_image: xcode10.1
       addons:
         homebrew:
           taps: 
