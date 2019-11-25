@@ -1,0 +1,69 @@
+matrix:
+  include:
+    - stage: "e2e"
+      os: osx
+      osx_image: xcode11.2
+      addons:
+        homebrew:
+          taps: 
+            - wix/brew
+          packages:
+            - applesimutils
+      language: node_js 
+      node_js: "12"
+      jdk: oraclejdk8
+      install: skip
+      before_script:
+        - sudo gem install xcpretty
+        - cd example
+        - npx appium-doctor
+        - yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
+      script:
+        - echo installing yarn dependencies
+        - echo -----------------------------
+        - yarn
+        - echo installing pod dependencies
+        - ls
+        - echo -----------------------------
+        - yarn clean:ios
+        - set -o pipefail && yarn build:e2e:ios | xcpretty
+        - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=12.0
+      after_script:
+        - cat ./appium_log.txt
+    - language: android
+      os: linux
+      node_js: "12"
+      jdk: oraclejdk8
+      install: skip
+      before_script:
+        - android list targets
+        - echo no | android create avd --force -n test -t android-28 --abi x86 -no-accel
+        - emulator -avd test -no-skin -no-audio -no-window &
+        - android-wait-for-emulator
+        - cd example
+        - npx appium-doctor
+        - yarn e2e:start-server --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
+      script:
+        - yarn
+        - yarn buid:e2e:android
+        - travis_wait 30 e2e/run-e2e.js --platform=android
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-28.0.3
+    - android-28
+    - extra-android-m2repository
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-x86-android-26
+    - sys-img-armeabi-v7a-android-17
+
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+    directories:
+        - .nvm
+        - $HOME/.gradle/caches/
+        - $HOME/.gradle/wrapper/

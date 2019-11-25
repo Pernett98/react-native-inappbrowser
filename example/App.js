@@ -138,10 +138,17 @@ export default class App extends Component {
           value={this.state.url}
         />
         <View style={styles.openButton}>
-          <Button title="Open link" onPress={() => this.openLink()} />
+          <Button
+            testID="btn_open_link"
+            accessibilityLabel="btn_open_link"
+            title="Open link" 
+            onPress={() => this.openLink()}
+          />
         </View>
         <View style={styles.openButton}>
           <Button
+            testID="btn_try_deep_linking"
+            accessibilityLabel="btn_try_deep_linking"
             title="Try deep linking"
             onPress={() => this.tryDeepLinking()}
           />
