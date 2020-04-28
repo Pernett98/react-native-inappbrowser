@@ -1,7 +1,14 @@
 // @flow
 
 import invariant from 'invariant';
-import { Linking, NativeModules, Platform, processColor } from 'react-native';
+import {
+  Linking,
+  NativeModules,
+  Platform,
+  processColor,
+  AppState,
+  AppStateStatus
+} from 'react-native';
 
 const { RNInAppBrowser } = NativeModules;
 
@@ -66,28 +73,21 @@ async function open(
   url: string,
   options: InAppBrowserOptions = {}
 ): Promise<BrowserResult> {
-  const {
-    animated,
-    readerMode,
-    modalEnabled,
-    dismissButtonStyle,
-    enableBarCollapsing,
-    preferredBarTintColor,
-    preferredControlTintColor,
-    ...optionalOptions
-  } = options;
   const inAppBrowserOptions = {
-    ...optionalOptions,
+    ...options,
     url,
-    dismissButtonStyle: dismissButtonStyle || 'close',
-    readerMode: !!readerMode,
-    animated: animated !== undefined ? animated : true,
-    modalEnabled: modalEnabled !== undefined ? modalEnabled : true,
-    enableBarCollapsing: !!enableBarCollapsing,
+    dismissButtonStyle: options.dismissButtonStyle || 'close',
+    readerMode: !!options.readerMode,
+    animated: options.animated !== undefined ? options.animated : true,
+    modalEnabled:
+      options.modalEnabled !== undefined ? options.modalEnabled : true,
+    enableBarCollapsing: !!options.enableBarCollapsing,
     preferredBarTintColor:
-      preferredBarTintColor && processColor(preferredBarTintColor),
+      options.preferredBarTintColor &&
+      processColor(options.preferredBarTintColor),
     preferredControlTintColor:
-      preferredControlTintColor && processColor(preferredControlTintColor)
+      options.preferredControlTintColor &&
+      processColor(options.preferredControlTintColor)
   };
   return RNInAppBrowser.open(inAppBrowserOptions);
 }
@@ -158,7 +158,7 @@ async function _openAuthSessionPolyfillAsync(
 function _waitForRedirectAsync(returnUrl: string): Promise<RedirectResult> {
   return new Promise(resolve => {
     _redirectHandler = (event: RedirectEvent) => {
-      if (event.url.startsWith(returnUrl)) {
+      if (event.url && event.url.startsWith(returnUrl)) {
         resolve({ url: event.url, type: 'success' });
       }
     };
@@ -167,23 +167,38 @@ function _waitForRedirectAsync(returnUrl: string): Promise<RedirectResult> {
   });
 }
 
-function _checkResultAndReturnUrl(
-  returnUrl: string,
-  result: RedirectResult
-): Promise<RedirectResult> {
+/**
+ * Detect Android Activity `OnResume` event once
+ */
+function AppStateActiveOnce(): Promise<void> {
   return new Promise(function(resolve) {
-    Linking.getInitialURL()
-      .then(function(url) {
-        if (url && url.startsWith(returnUrl)) {
-          resolve({ url: url, type: 'success' });
-        } else {
-          resolve(result);
-        }
-      })
-      .catch(function() {
-        resolve(result);
-      });
+    function _handleAppStateChange(nextAppState: AppStateStatus) {
+      if (nextAppState === 'active') {
+        AppState.removeEventListener('change', _handleAppStateChange);
+        resolve();
+      }
+    }
+    AppState.addEventListener('change', _handleAppStateChange);
   });
+}
+
+async function _checkResultAndReturnUrl(
+  returnUrl: string,
+  result: AuthSessionResult
+): Promise<AuthSessionResult> {
+  if (Platform.OS === 'android' && result.type !== 'cancel') {
+    try {
+      await AppStateActiveOnce();
+      const url = await Linking.getInitialURL();
+      return url && url.startsWith(returnUrl)
+        ? { url, type: 'success' }
+        : result;
+    } catch {
+      return result;
+    }
+  } else {
+    return result;
+  }
 }
 
 async function isAvailable(): Promise<boolean> {
