@@ -316,7 +316,7 @@ PODS:
     - React-cxxreact (= 0.64.2)
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
-  - RNInAppBrowser (3.6.1):
+  - RNInAppBrowser (3.6.2):
     - React-Core
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -454,7 +454,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
-  FBReactNativeSpec: 3349272af73455a0b14b67ee118d35007a25c0e0
+  FBReactNativeSpec: 83600f2dd0fb659b19b4e3e264d2308f2acff1f5
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
@@ -488,7 +488,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 24600e3b1aaa77126989bc58b6747509a1ba14f3
   React-runtimeexecutor: a9904c6d0218fb9f8b19d6dd88607225927668f9
   ReactCommon: 149906e01aa51142707a10665185db879898e966
-  RNInAppBrowser: 0523b3c15501fb8b54b4f32905d2e71ca902d914
+  RNInAppBrowser: d8cf6dacf06e023acd307016179c3810c5d01cf2
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

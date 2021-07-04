@@ -46,10 +46,20 @@ const App = () => {
         value={url}
       />
       <View style={styles.openButton}>
-        <Button title="Open link" onPress={onOpenLink} />
+        <Button
+          accessibilityLabel="btn_open_link"  
+          testID="btn_open_link" 
+          title="Open link d" 
+          onPress={onOpenLink} 
+        />
       </View>
       <View style={styles.openButton}>
-        <Button title="Try deep linking" onPress={tryDeepLinking} />
+        <Button
+          accessibilityLabel="btn_try_deep_linking"
+          testID="btn_try_deep_linking"
+          title="Try deep linking"
+          onPress={tryDeepLinking}
+        />
       </View>
       <Text style={styles.instructions}>{instructions}</Text>
     </View>
