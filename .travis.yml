@@ -10,7 +10,7 @@ matrix:
           packages:
             - applesimutils
       language: node_js 
-      node_js: "12"
+      node_js: "14"
       jdk: oraclejdk8
       install: skip
       before_script:
@@ -36,6 +36,9 @@ matrix:
       jdk: oraclejdk8
       install: skip
       before_script:
+        - npm --version
+        - node --version
+        - npx --version
         - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a  
         - emulator -avd test -no-audio -no-window &  
         - android-wait-for-emulator  
