@@ -32,9 +32,13 @@ matrix:
         - cat ./appium_log.txt
     - language: android
       os: linux
-      node_js: "14"
       jdk: oraclejdk8
-      install: skip
+      before_install:
+        - curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+        - sudo apt-get install -y nodejs
+        - npm --version
+        - node --version
+        - npx --version
       before_script:
         - npm --version
         - node --version
