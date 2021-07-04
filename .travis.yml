@@ -2,7 +2,7 @@ matrix:
   include:
     - stage: "e2e"
       os: osx
-      osx_image: xcode11.2
+      osx_image: xcode12.5
       addons:
         homebrew:
           taps: 
@@ -27,7 +27,7 @@ matrix:
         - echo -----------------------------
         - yarn clean:ios
         - set -o pipefail && yarn build:e2e:ios | xcpretty
-        - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=12.0
+        - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=14.5
       after_script:
         - cat ./appium_log.txt
     - language: android
@@ -36,10 +36,10 @@ matrix:
       jdk: oraclejdk8
       install: skip
       before_script:
-        - android list targets
-        - echo no | android create avd --force -n test -t android-28 --abi x86 -no-accel
-        - emulator -avd test -no-skin -no-audio -no-window &
+        - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
+        - emulator -avd test -no-audio -no-window &
         - android-wait-for-emulator
+        - adb shell input keyevent 82 &
         - adb shell am set-debug-app --persistent com.android.chrome 
         - adb shell 'echo "chrome --disable-fre --no-default-browser-check --no-first-run" > /data/local/tmp/chrome-command-line'
         - cd example
