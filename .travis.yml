@@ -32,7 +32,7 @@ matrix:
         - cat ./appium_log.txt
     - language: android
       os: linux
-      node_js: "12"
+      node_js: "14"
       jdk: oraclejdk8
       install: skip
       before_script:
