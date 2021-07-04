@@ -26,7 +26,7 @@ matrix:
         - ls
         - echo -----------------------------
         - yarn clean:ios
-        - set -o pipefail && yarn build:e2e:ios | xcpretty -s
+        - set -o pipefail && yarn build:e2e:ios | xcpretty -s > ios_log.txt &
         - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=14.5
       after_script:
         - cat ./appium_log.txt
@@ -65,7 +65,8 @@ android:
   components:    
     - tools    
     - build-tools-30.0.2    
-    - android-30    
+    - android-30
+    - android-29    
     - android-22    
     - extra-google-google_play_services    
     - extra-google-m2repository    
