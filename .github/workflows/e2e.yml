@@ -1,0 +1,29 @@
+name: e2e
+on: [push]
+jobs:
+  ios:
+    runs-on: macos-11.0
+    steps:
+      - uses: lyricwulf/abc@v1
+        with: 
+          macos: applesimutils xcbeautify
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - run: |
+          cd example
+          npx appium-doctor
+          yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
+          echo installing yarn dependencies
+          echo -----------------------------
+          yarn
+          echo installing pod dependencies
+          ls
+          echo -----------------------------
+          yarn clean:ios
+          set -o pipefail && yarn build:e2e:ios | xcbeautify
+          yarn zip:build:ios
+          e2e/run-e2e.js --platform=ios --platformVersion=14.5
+          cat ./appium_log.txt
