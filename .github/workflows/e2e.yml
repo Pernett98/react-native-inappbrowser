@@ -12,7 +12,6 @@ jobs:
       - run: |
           brew tap wix/brew
           brew install applesimutils
-          brew install thii/swift-runtime/swift-runtime
           brew install xcbeautify
           cd example
           npx appium-doctor
