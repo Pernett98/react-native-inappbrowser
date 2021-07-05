@@ -2,7 +2,7 @@ name: e2e
 on: [push]
 jobs:
   ios:
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
       - uses: lyricwulf/abc@v1
         with: 
