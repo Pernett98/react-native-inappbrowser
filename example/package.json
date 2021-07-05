@@ -16,7 +16,7 @@
     "e2e:start-server": "npx appium",
     "e2e:ios": "e2e/run-e2e.js --platform=ios --deviceName='iPhone 12'",
     "e2e:android": "e2e/run-e2e.js --platform=android",
-    "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator && yarn zip:build:ios",
+    "build:e2e:ios": "cd ios && xcodebuild -workspace example.xcworkspace -configuration Release -scheme example -derivedDataPath build/example -sdk iphonesimulator -quiet && yarn zip:build:ios",
     "zip:build:ios": "cd ios/build/example/Build/Products/Release-iphonesimulator && zip -r example.app.zip example.app",
     "build:e2e:android": "cd android && ./gradlew assembleRelease"
   },
@@ -36,6 +36,7 @@
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
+    "minimist": "^1.2.5",
     "react-test-renderer": "17.0.1",
     "wd": "^1.14.0"
   },
