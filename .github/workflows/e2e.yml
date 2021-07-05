@@ -10,6 +10,7 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: |
+          brew install alfred
           brew tap wix/brew
           brew install applesimutils
           brew cask install thii/swift-runtime/swift-runtime
