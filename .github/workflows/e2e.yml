@@ -10,10 +10,9 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: |
-          brew install caskroom/cask/brew-cask
           brew tap wix/brew
           brew install applesimutils
-          brew cask install thii/swift-runtime/swift-runtime
+          brew install thii/swift-runtime/swift-runtime
           brew install xcbeautify
           cd example
           npx appium-doctor
