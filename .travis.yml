@@ -9,12 +9,12 @@ matrix:
             - wix/brew
           packages:
             - applesimutils
+            - xcbeautify
       language: node_js 
       node_js: "14"
       jdk: oraclejdk8
       install: skip
       before_script:
-        - sudo gem install xcpretty
         - cd example
         - npx appium-doctor
         - yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
@@ -26,7 +26,7 @@ matrix:
         - ls
         - echo -----------------------------
         - yarn clean:ios
-        - set -o pipefail && yarn build:e2e:ios | xcpretty -s
+        - set -o pipefail && yarn build:e2e:ios | xcbeautify
         - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=14.5
       after_script:
         - cat ./appium_log.txt
@@ -57,6 +57,8 @@ matrix:
         - yarn
         - yarn build:e2e:android
         - travis_wait 30 e2e/run-e2e.js --platform=android
+      after_script:
+        - cat ./appium_log.txt
 
 android:  
   licenses:    
