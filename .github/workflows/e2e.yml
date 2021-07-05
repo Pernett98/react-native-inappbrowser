@@ -4,15 +4,16 @@ jobs:
   ios:
     runs-on: macos-latest
     steps:
-      - uses: lyricwulf/abc@v1
-        with: 
-          macos: applesimutils xcbeautify
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
           cache: 'yarn'
       - run: |
+          brew tap wix/brew
+          brew install applesimutils
+          brew cask install thii/swift-runtime/swift-runtime
+          brew install xcbeautify
           cd example
           npx appium-doctor
           yarn e2e:start-server --log-level info --default-capabilities '{ "newCommandTimeout":660 }' > appium_log.txt &
