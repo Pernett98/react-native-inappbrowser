@@ -62,7 +62,7 @@ describe('Simple tests for deep linking and redirection', () => {
   beforeEach(async () => {
     try {
       await driver.resetApp();
-      await driver.sleep(2000); // wait for app to load
+      await driver.sleep(10000); // wait for app to load
     } catch (err) {
       console.log(err);
     }

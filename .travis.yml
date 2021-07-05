@@ -26,7 +26,8 @@ matrix:
         - ls
         - echo -----------------------------
         - yarn clean:ios
-        - travis_wait 30 set -o pipefail && yarn build:e2e:ios | xcbeautify
+        - travis_wait 50 set -o pipefail && yarn build:e2e:ios | xcbeautify
+        - yarn zip:build:ios
         - travis_wait 30 e2e/run-e2e.js --platform=ios --platformVersion=14.5
       after_script:
         - cat ./appium_log.txt
